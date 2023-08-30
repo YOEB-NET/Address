@@ -2,24 +2,24 @@
 
 namespace Database\Seeders;
 
-use App\Models\Country;
+use Yoeb\AddressInstaller\Model\YoebCountry;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CountrySeed extends Seeder
+class YoebCountrySeed extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Country::truncate();
+        YoebCountry::truncate();
         $csvData = fopen( __DIR__.'/../data/countries.csv', 'r');
         $transRow = true;
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
-                Country::create([
+                YoebCountry::create([
                   "id"              => $data[0],
                   "name"            => $data[1],
                   "iso3"            => $data[2],

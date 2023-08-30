@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\State;
+use Yoeb\AddressInstaller\Model\YoebCity;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class StateSeed extends Seeder
+class YoebCitySeed extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,32 +16,35 @@ class StateSeed extends Seeder
     {
         $time = time();
         $i = 0;
-        $full = 5080;
-        State::truncate();
-        $csvData = fopen( __DIR__.'/../data/states.csv', 'r');
+        $full = 150541;
+        YoebCity::truncate();
+        $csvData = fopen( __DIR__.'/../data/cities.csv', 'r');
         $transRow = true;
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
                 $i++;
-                if($time+1 < time()){
+                if($time+5 < time()){
                     echo ((int) ($i * 100 / $full))."%\n";
                     $time = time();
                 }
-                State::create([
+                YoebCity::create([
                     'id' => $data[0],
                     'name' => $data[1],
-                    'country_id' => $data[2],
-                    'country_code' => $data[3],
-                    'country_name' => $data[4],
-                    'state_code' => $data[5],
-                    'type' => $data[6] ?? null,
-                    'latitude' => empty($data[7]) ? null : $data[7],
-                    'longitude' => empty($data[8]) ? null : $data[8],
+                    'state_id' => $data[2],
+                    'state_code' => $data[3],
+                    'state_name' => $data[4],
+                    'country_id' => $data[5],
+                    'country_code' => $data[6],
+                    'country_name' => $data[7],
+                    'latitude' => empty($data[8]) ? null : $data[8],
+                    'longitude' => empty($data[9]) ? null : $data[9],
+                    'wikiDataId' => $data[10],
                 ]);
 
             }
             $transRow = false;
         }
         fclose($csvData);
+
     }
 }

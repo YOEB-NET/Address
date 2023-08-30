@@ -1,8 +1,12 @@
 <?php
 
-namespace Database\Seeders;
+namespace Yoeb\AddressInstaller\Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use Database\Seeders\YoebCitySeed;
+use Database\Seeders\YoebCountrySeed;
+use Database\Seeders\YoebStateSeed;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,9 +17,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            CountrySeed::class,
-            StateSeed::class,
-            CitySeed::class,
+            YoebCountrySeed::class,
+            YoebStateSeed::class,
+            YoebCitySeed::class,
         ]);
     }
 }
