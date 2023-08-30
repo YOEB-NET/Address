@@ -22,5 +22,8 @@
         }
     },
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "laravel/laravel": "*",
+        "php": "^8.0.2"
+    }
 }
