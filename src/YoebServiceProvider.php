@@ -1,5 +1,5 @@
 <?php
-namespace Yoeb\Notifications;
+namespace Yoeb\AddressInstaller;
 
 use Illuminate\Support\ServiceProvider;
 

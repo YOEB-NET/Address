@@ -17,7 +17,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Yoeb\\Notifications\\YoebServiceProvider"
+                "Yoeb\\AddressInstaller\\YoebServiceProvider"
             ]
         }
     },
