@@ -1,0 +1,26 @@
+{
+    "name": "yoeb/address-installer",
+    "description": "YOEB.NET",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Yoeb\\AddressInstaller\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "YOEB",
+            "email": "support@yoeb.net"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yoeb\\Notifications\\YoebServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {}
+}
