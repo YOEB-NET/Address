@@ -1,11 +1,10 @@
 <?php
 
-namespace Database\Seeders;
+namespace Yoeb\AddressInstaller\Database\Seeders;
 
 use Yoeb\AddressInstaller\Model\YoebState;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class YoebStateSeed extends Seeder
 {
@@ -14,6 +13,8 @@ class YoebStateSeed extends Seeder
      */
     public function run(): void
     {
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $output->writeln("<info>--------- States are added ---------</info>");
         $time = time();
         $i = 0;
         $full = 5080;
@@ -24,7 +25,7 @@ class YoebStateSeed extends Seeder
             if (!$transRow) {
                 $i++;
                 if($time+1 < time()){
-                    echo ((int) ($i * 100 / $full))."%\n";
+                    $output->writeln("<info>".((int) ($i * 100 / $full))."% added"."</info>");
                     $time = time();
                 }
                 YoebState::create([
@@ -42,6 +43,8 @@ class YoebStateSeed extends Seeder
             }
             $transRow = false;
         }
+        $output->writeln("<info>--------- All state added ---------</info>");
+
         fclose($csvData);
     }
 }

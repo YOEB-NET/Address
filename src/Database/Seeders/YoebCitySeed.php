@@ -1,11 +1,10 @@
 <?php
 
-namespace Database\Seeders;
+namespace Yoeb\AddressInstaller\Database\Seeders;
 
 use Yoeb\AddressInstaller\Model\YoebCity;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class YoebCitySeed extends Seeder
 {
@@ -14,17 +13,21 @@ class YoebCitySeed extends Seeder
      */
     public function run(): void
     {
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $output->writeln("<info>--------- Cities are added ---------</info>");
+
         $time = time();
         $i = 0;
         $full = 150541;
         YoebCity::truncate();
         $csvData = fopen( __DIR__.'/../data/cities.csv', 'r');
         $transRow = true;
+
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
                 $i++;
                 if($time+5 < time()){
-                    echo ((int) ($i * 100 / $full))."%\n";
+                    $output->writeln("<info>".((int) ($i * 100 / $full))."% added"."</info>");
                     $time = time();
                 }
                 YoebCity::create([
@@ -45,6 +48,6 @@ class YoebCitySeed extends Seeder
             $transRow = false;
         }
         fclose($csvData);
-
+        $output->writeln("<info>--------- All city added ---------</info>");
     }
 }

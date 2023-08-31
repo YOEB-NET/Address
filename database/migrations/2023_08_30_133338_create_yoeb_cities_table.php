@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('wikiDataId');
             $table->timestamps();
 
-            $table->foreign("country_id")->references("id")->on("yoeb_countries");
-            $table->foreign("state_id")->references("id")->on("yoeb_states");
+          //  $table->foreign("country_id")->references("id")->on("yoeb_countries");
+            //$table->foreign("state_id")->references("id")->on("yoeb_states");
         });
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Yoeb\AddressInstaller\Database\Seeders;
 
 use Yoeb\AddressInstaller\Model\YoebCountry;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -14,6 +14,9 @@ class YoebCountrySeed extends Seeder
      */
     public function run(): void
     {
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $output->writeln("<info>--------- Countries are added ---------</info>");
+
         YoebCountry::truncate();
         $csvData = fopen( __DIR__.'/../data/countries.csv', 'r');
         $transRow = true;
@@ -41,10 +44,11 @@ class YoebCountrySeed extends Seeder
                   "emoji"           => $data[18],
                   "emojiU"          => $data[19],
                 ]);
-
             }
             $transRow = false;
         }
         fclose($csvData);
+        $output->writeln("<info>--------- All country added ---------</info>");
+
     }
 }

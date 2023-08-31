@@ -2,11 +2,9 @@
 
 namespace Yoeb\AddressInstaller\Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
-use Database\Seeders\YoebCitySeed;
-use Database\Seeders\YoebCountrySeed;
-use Database\Seeders\YoebStateSeed;
+use Yoeb\AddressInstaller\Database\Seeders\YoebCitySeed;
+use Yoeb\AddressInstaller\Database\Seeders\YoebCountrySeed;
+use Yoeb\AddressInstaller\Database\Seeders\YoebStateSeed;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
