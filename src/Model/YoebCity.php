@@ -4,6 +4,8 @@ namespace Yoeb\AddressInstaller\Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Yoeb\AddressInstaller\Model\YoebCountry;
+use Yoeb\AddressInstaller\Model\YoebState;
 
 class YoebCity extends Model
 {
@@ -21,5 +23,13 @@ class YoebCity extends Model
         'longitude',
         'wikiDataId',
     ];
+
+    function country_detail() {
+        return $this->hasOne(YoebCountry::class, "id", "country_id");
+    }
+
+    function state_detail() {
+        return $this->hasOne(YoebState::class, "id", "state_id");
+    }
 
 }
