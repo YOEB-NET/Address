@@ -28,7 +28,7 @@ class YoebCountry extends Model
         'latitude',
         'longitude',
         'emoji',
-        'emojiU',
+        'emojiu',
         'wikiDataId',
     ];
 

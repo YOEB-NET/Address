@@ -23,7 +23,7 @@ return new class extends Migration
             $table->double('longitude')->nullable();
             $table->timestamps();
 
-            //$table->foreign("country_id")->references("id")->on("yoeb_countries");
+            $table->foreign("country_id")->references("id")->on("yoeb_countries");
 
         });
     }

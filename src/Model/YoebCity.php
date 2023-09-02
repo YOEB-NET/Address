@@ -21,7 +21,7 @@ class YoebCity extends Model
         'country_name',
         'latitude',
         'longitude',
-        'wikiDataId',
+        'wikidataid',
     ];
 
     function country_detail() {
