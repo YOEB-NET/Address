@@ -21,6 +21,7 @@ class YoebStateSeed extends Seeder
         YoebState::truncate();
         $csvData = fopen( __DIR__.'/../../data/csv/states.csv', 'r');
         $transRow = true;
+        $datas = [];
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
                 $i++;
@@ -28,7 +29,7 @@ class YoebStateSeed extends Seeder
                     $output->writeln("<info>".((int) ($i * 100 / $full))."% added"."</info>");
                     $time = time();
                 }
-                YoebState::create([
+                $datas[] = [
                     'id' => $data[0],
                     'name' => $data[1],
                     'country_id' => $data[2],
@@ -38,11 +39,12 @@ class YoebStateSeed extends Seeder
                     'type' => $data[6] ?? null,
                     'latitude' => empty($data[7]) ? null : $data[7],
                     'longitude' => empty($data[8]) ? null : $data[8],
-                ]);
+                ];
 
             }
             $transRow = false;
         }
+        YoebState::insert($datas);
         $output->writeln("<info>--------- All state added ---------</info>");
 
         fclose($csvData);

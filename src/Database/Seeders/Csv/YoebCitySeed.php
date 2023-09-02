@@ -22,7 +22,7 @@ class YoebCitySeed extends Seeder
         YoebCity::truncate();
         $csvData = fopen( __DIR__.'/../../data/csv/cities.csv', 'r');
         $transRow = true;
-
+        $datas = [];
         while (($data = fgetcsv($csvData, 555, ',')) !== false) {
             if (!$transRow) {
                 $i++;
@@ -30,7 +30,7 @@ class YoebCitySeed extends Seeder
                     $output->writeln("<info>".((int) ($i * 100 / $full))."% added"."</info>");
                     $time = time();
                 }
-                YoebCity::create([
+                $datas[] = [
                     'id' => $data[0],
                     'name' => $data[1],
                     'state_id' => $data[2],
@@ -42,12 +42,13 @@ class YoebCitySeed extends Seeder
                     'latitude' => empty($data[8]) ? null : $data[8],
                     'longitude' => empty($data[9]) ? null : $data[9],
                     'wikidataid' => $data[10],
-                ]);
+                ];
 
             }
             $transRow = false;
         }
         fclose($csvData);
+        YoebCity::insert($datas);
         $output->writeln("<info>--------- All city added ---------</info>");
     }
 }
