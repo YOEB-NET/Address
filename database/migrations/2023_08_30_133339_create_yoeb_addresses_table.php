@@ -26,7 +26,7 @@ return new class extends Migration
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
             $table->timestamps();
-            $table->softDelete();
+            $table->softDeletes();
 
             $table->foreign("country_id")->references("id")->on("yoeb_countries");
             $table->foreign("state_id")->references("id")->on("yoeb_states");

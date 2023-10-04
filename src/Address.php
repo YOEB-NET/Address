@@ -5,9 +5,11 @@
 namespace Yoeb\AddressInstaller;
 
 use Yoeb\AddressInstaller\Model\YoebAddress;
+use Yoeb\AddressInstaller\Model\YoebUserAddress;
 use Yoeb\AddressInstaller\Model\YoebCountry;
 use Yoeb\AddressInstaller\Model\YoebState;
 use Yoeb\AddressInstaller\Model\YoebCity;
+
 class Address{
 
     // Add
@@ -24,7 +26,9 @@ class Address{
     protected static $latitude = null;
     protected static $longitude = null;
     protected static $paginate = 0;
-    protected static $filter = [];
+    protected static $filter = null;
+    protected static $userId = null;
+    protected static $addressId = null;
 
     public static function title($title){
         self::$title = $title;
@@ -97,52 +101,193 @@ class Address{
         return (new static);
     }
 
-    // List
-    public static function list() {
-        $list = YoebAddress::query();
+    public static function userId($userId) {
+        self::$userId = $userId;
+        return (new static);
+    }
+
+    public static function addressId($addressId) {
+        self::$addressId = $addressId;
+        return (new static);
+    }
+
+    public static function add() {
+        self::create([
+            "title"         => self::$title,
+            "country_id"    => self::$country_id,
+            "state_id"      => self::$state_id,
+            "city_id"       => self::$city_id,
+            "neighbourhood" => self::$neighbourhood,
+            "building_no"   => self::$building_no,
+            "floor"         => self::$floor,
+            "apartment"     => self::$apartment,
+            "detail"        => self::$detail,
+            "directions"    => self::$directions,
+            "latitude"      => self::$latitude,
+            "longitude"     => self::$longitude,
+        ], self::$userId);
+    }
+
+    public static function create($data, $userId = null) {
+        $res = YoebAddress::create($data);
+        if(!empty($userId)){
+            self::addUserAddress($res->id, $userId);
+        }else{
+            self::reset();
+        }
+        return $res;
+    }
+
+    public static function addUserAddress($addressId = null, $userId = null) {
+        if(!empty($addressId)){
+            self::addressId($addressId);
+        }
+        if(!empty($userId)){
+            self::userId($userId);
+        }
+
+        $res = YoebUserAddress::create([
+            "user_id"       => self::$userId,
+            "address_id"    => self::$addressId,
+        ]);
+
+        self::reset();
+
+        return $res;
+    }
+
+    public static function query() {
+        $query = YoebAddress::query();
 
         if (!empty(self::$country_id)) {
-            $list = $list->where("country_id", self::$country_id);
+            $query = $query->where("country_id", self::$country_id);
         }
         if (!empty(self::$state_id)) {
-            $list = $list->where("state_id", self::$state_id);
+            $query = $query->where("state_id", self::$state_id);
         }
         if (!empty(self::$city_id)) {
-            $list = $list->where("city_id", self::$city_id);
+            $query = $query->where("city_id", self::$city_id);
         }
         if (!empty(self::$neighbourhood)) {
-            $list = $list->where("neighbourhood", self::$neighbourhood);
+            $query = $query->where("neighbourhood", self::$neighbourhood);
         }
         if (!empty(self::$building_no)) {
-            $list = $list->where("building_no", self::$building_no);
+            $query = $query->where("building_no", self::$building_no);
         }
         if (!empty(self::$floor)) {
-            $list = $list->where("floor", self::$floor);
+            $query = $query->where("floor", self::$floor);
         }
         if (!empty(self::$apartment)) {
-            $list = $list->where("apartment", self::$apartment);
+            $query = $query->where("apartment", self::$apartment);
         }
         if (!empty(self::$detail)) {
-            $list = $list->where("detail", self::$detail);
+            $query = $query->where("detail", self::$detail);
         }
         if (!empty(self::$directions)) {
-            $list = $list->where("directions", self::$directions);
+            $query = $query->where("directions", self::$directions);
         }
         if (!empty(self::$latitude)) {
-            $list = $list->where("latitude", self::$latitude);
+            $query = $query->where("latitude", self::$latitude);
         }
         if (!empty(self::$longitude)) {
-            $list = $list->where("longitude", self::$longitude);
+            $query = $query->where("longitude", self::$longitude);
         }
-    
+        if(!empty(self::$userId)){
+            $query = $query
+            ->rightJoin('yoeb_user_addresses', 'yoeb_addresses.id', '=', 'yoeb_user_addresses.address_id')
+            ->select((empty(self::$filter)) ? 'yoeb_addresses.*' : self::formatFilterColumns(self::$filter), 'yoeb_user_addresses.address_id as id') // 'id' olarak çıktıyı belirtiyoruz
+            ->where('yoeb_addresses.deleted_at', null);
+        }
+        if (!empty(self::$addressId)) {
+            $query = $query->where("id", self::$addressId);
+        }
+        return $query;
+    }
+    // List
+    public static function list() {
+        $list = self::query();
         if(self::$paginate){
-            $data = $list->paginate(self::$paginate, self::$filter);
+            if(empty(self::$filter)){
+                $data = $list->paginate(self::$paginate);
+            }else{
+                $data = $list->paginate(self::$paginate, self::$filter);
+            }
         }else{
-            $data = $list->get(self::$filter);
+            if(empty(self::$filter)){
+                $data = $list->get();
+            }else{
+                $data = $list->get(self::$filter);
+            }
         }
+
+        self::reset();
 
         return $data;
     }
+
+    // Delete
+    public static function userAddresQuery() {
+        $remove = YoebUserAddress::query();
+        if(!empty(self::$userId)){
+            $remove->where("user_id", self::$userId);
+        }
+        if(!empty(self::$addressId)){
+            $remove->where("user_id", self::$addressId);
+        }
+        return $remove;
+    }
+
+    public static function remove(){
+        $remove = self::userAddresQuery();
+        $remove->forceDelete();
+        return $remove;
+    }
+
+    public static function softRemove(){
+        $remove = self::userAddresQuery();
+        $remove->delete();
+        return $remove;
+    }
+
+    public static function delete(){
+        $delete = self::query();
+        $ids = $delete->pluck("id");
+        self::remove();
+        YoebAddress::whereIn("id", $ids)->forceDelete();
+        return $delete;
+    }
+
+    public static function softDelete(){
+        $delete = self::query();
+        self::softRemove();
+        $delete->delete();
+        return $delete;
+    }
+
+    public static function reset() {
+        self::$title            = null;
+        self::$country_id       = null;
+        self::$state_id         = null;
+        self::$city_id          = null;
+        self::$neighbourhood    = null;
+        self::$building_no      = null;
+        self::$floor            = null;
+        self::$apartment        = null;
+        self::$detail           = null;
+        self::$directions       = null;
+        self::$latitude         = null;
+        self::$longitude        = null;
+        self::$userId           = null;
+        self::$addressId        = null;
+    }
+
+    public static function formatFilterColumns($columns)
+    {
+        return array_map(function($column) {
+            return "yoeb_addresses.$column";
+        }, $columns);
+    }
+
 }
 
 ?>
