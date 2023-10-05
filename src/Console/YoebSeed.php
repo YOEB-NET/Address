@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoeb\AddressInstaller\Console;
+namespace Yoeb\Address\Console;
 
 use Illuminate\Console\Command;
-use Yoeb\AddressInstaller\Database\Seeders\Csv\DatabaseSeeder as CsvDatabaseSeeder;
-use Yoeb\AddressInstaller\Database\Seeders\Mysql\DatabaseSeeder as MysqlDatabaseSeeder;
-use Yoeb\AddressInstaller\Database\Seeders\Pgsql\DatabaseSeeder as PgsqlDatabaseSeeder;
+use Yoeb\Address\Database\Seeders\Csv\DatabaseSeeder as CsvDatabaseSeeder;
+use Yoeb\Address\Database\Seeders\Mysql\DatabaseSeeder as MysqlDatabaseSeeder;
+use Yoeb\Address\Database\Seeders\Pgsql\DatabaseSeeder as PgsqlDatabaseSeeder;
 
 class YoebSeed extends Command
 {

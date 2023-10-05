@@ -1,14 +1,14 @@
 <?php
 
-// 15.07.2023 YOEB.NET X BERKAY.ME
+// 05.10.2023 YOEB.NET X BERKAY.ME
 
-namespace Yoeb\AddressInstaller;
+namespace Yoeb\Address;
 
-use Yoeb\AddressInstaller\Model\YoebAddress;
-use Yoeb\AddressInstaller\Model\YoebUserAddress;
-use Yoeb\AddressInstaller\Model\YoebCountry;
-use Yoeb\AddressInstaller\Model\YoebState;
-use Yoeb\AddressInstaller\Model\YoebCity;
+use Yoeb\Address\Model\YoebAddress;
+use Yoeb\Address\Model\YoebUserAddress;
+use Yoeb\Address\Model\YoebCountry;
+use Yoeb\Address\Model\YoebState;
+use Yoeb\Address\Model\YoebCity;
 
 class Address{
 
@@ -156,7 +156,7 @@ class Address{
         return $res;
     }
 
-    public static function query() {
+    public static function baseQuery() {
         $query = YoebAddress::query();
 
         if (!empty(self::$country_id)) {
@@ -204,8 +204,12 @@ class Address{
         return $query;
     }
     // List
-    public static function list() {
-        $list = self::query();
+    public static function list($query = null) {
+        $list = self::baseQuery();
+        if (is_callable($query)) {
+            $query($list);
+        }
+
         if(self::$paginate){
             if(empty(self::$filter)){
                 $data = $list->paginate(self::$paginate);
@@ -237,28 +241,44 @@ class Address{
         return $remove;
     }
 
-    public static function remove(){
+    public static function remove($query = null){
         $remove = self::userAddresQuery();
+        if (is_callable($query)) {
+            $query($remove);
+        }
+
         $remove->forceDelete();
         return $remove;
     }
 
-    public static function softRemove(){
+    public static function softRemove($query = null){
         $remove = self::userAddresQuery();
+        if (is_callable($query)) {
+            $query($remove);
+        }
+
         $remove->delete();
         return $remove;
     }
 
-    public static function delete(){
-        $delete = self::query();
+    public static function delete($query = null){
+        $delete = self::baseQuery();
+        if (is_callable($query)) {
+            $query($delete);
+        }
+        
         $ids = $delete->pluck("id");
         self::remove();
         YoebAddress::whereIn("id", $ids)->forceDelete();
         return $delete;
     }
 
-    public static function softDelete(){
-        $delete = self::query();
+    public static function softDelete($query = null){
+        $delete = self::baseQuery();
+        if (is_callable($query)) {
+            $query($delete);
+        }
+
         self::softRemove();
         $delete->delete();
         return $delete;

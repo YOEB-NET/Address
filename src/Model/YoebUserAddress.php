@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoeb\AddressInstaller\Model;
+namespace Yoeb\Address\Model;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Yoeb\AddressInstaller\Model\YoebAddress;
+use Yoeb\Address\Model\YoebAddress;
 
 class YoebUserAddress extends Model
 {

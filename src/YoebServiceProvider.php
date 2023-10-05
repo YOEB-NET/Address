@@ -1,8 +1,8 @@
 <?php
-namespace Yoeb\AddressInstaller;
+namespace Yoeb\Address;
 
 use Illuminate\Support\ServiceProvider;
-use Yoeb\AddressInstaller\Console\YoebSeed;
+use Yoeb\Address\Console\YoebSeed;
 
 
 class YoebServiceProvider extends ServiceProvider {

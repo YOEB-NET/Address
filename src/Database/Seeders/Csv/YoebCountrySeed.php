@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoeb\AddressInstaller\Database\Seeders\Csv;
+namespace Yoeb\Address\Database\Seeders\Csv;
 
-use Yoeb\AddressInstaller\Model\YoebCountry;
+use Yoeb\Address\Model\YoebCountry;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

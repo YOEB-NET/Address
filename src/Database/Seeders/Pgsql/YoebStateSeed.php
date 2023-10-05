@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoeb\AddressInstaller\Database\Seeders\Pgsql;
+namespace Yoeb\Address\Database\Seeders\Pgsql;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

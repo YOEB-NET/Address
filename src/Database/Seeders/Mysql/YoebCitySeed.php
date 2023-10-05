@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoeb\AddressInstaller\Database\Seeders\Mysql;
+namespace Yoeb\Address\Database\Seeders\Mysql;
 
-use Yoeb\AddressInstaller\Model\YoebCity;
+use Yoeb\Address\Model\YoebCity;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

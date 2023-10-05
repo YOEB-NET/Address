@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoeb\AddressInstaller\Database\Seeders\Mysql;
+namespace Yoeb\Address\Database\Seeders\Mysql;
 
-use Yoeb\AddressInstaller\Database\Seeders\Mysql\YoebCitySeed;
-use Yoeb\AddressInstaller\Database\Seeders\Mysql\YoebCountrySeed;
-use Yoeb\AddressInstaller\Database\Seeders\Mysql\YoebStateSeed;
+use Yoeb\Address\Database\Seeders\Mysql\YoebCitySeed;
+use Yoeb\Address\Database\Seeders\Mysql\YoebCountrySeed;
+use Yoeb\Address\Database\Seeders\Mysql\YoebStateSeed;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

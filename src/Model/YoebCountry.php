@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoeb\AddressInstaller\Model;
+namespace Yoeb\Address\Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

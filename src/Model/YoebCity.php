@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoeb\AddressInstaller\Model;
+namespace Yoeb\Address\Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Yoeb\AddressInstaller\Model\YoebCountry;
-use Yoeb\AddressInstaller\Model\YoebState;
+use Yoeb\Address\Model\YoebCountry;
+use Yoeb\Address\Model\YoebState;
 
 class YoebCity extends Model
 {
