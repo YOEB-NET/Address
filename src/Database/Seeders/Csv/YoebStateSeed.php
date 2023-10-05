@@ -18,7 +18,11 @@ class YoebStateSeed extends Seeder
         $time = time();
         $i = 0;
         $full = 5080;
+
+        Schema::disableForeignKeyConstraints();
         YoebState::truncate();
+        Schema::enableForeignKeyConstraints();
+
         $csvData = fopen( __DIR__.'/../../data/csv/states.csv', 'r');
         $transRow = true;
         $datas = [];

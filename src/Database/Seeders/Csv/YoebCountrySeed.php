@@ -17,7 +17,10 @@ class YoebCountrySeed extends Seeder
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $output->writeln("<info>--------- Countries are added ---------</info>");
 
+        Schema::disableForeignKeyConstraints();
         YoebCountry::truncate();
+        Schema::enableForeignKeyConstraints();
+
         $csvData = fopen( __DIR__.'/../../data/csv/countries.csv', 'r');
         $transRow = true;
         $datas = [];

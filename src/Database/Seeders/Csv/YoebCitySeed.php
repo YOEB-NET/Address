@@ -19,7 +19,11 @@ class YoebCitySeed extends Seeder
         $time = time();
         $i = 0;
         $full = 150541;
+
+        Schema::disableForeignKeyConstraints();
         YoebCity::truncate();
+        Schema::enableForeignKeyConstraints();
+
         $csvData = fopen( __DIR__.'/../../data/csv/cities.csv', 'r');
         $transRow = true;
         $datas = [];
