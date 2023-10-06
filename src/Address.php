@@ -303,6 +303,9 @@ class Address{
         if (!empty(self::$id)) {
             $query = $query->where("id", self::$id);
         }
+        if (!empty(self::$addressId)) {
+            $query = $query->where("yoeb_addresses.id", self::$addressId);
+        }
         if (!empty(self::$title)) {
             $query = $query->where("title", self::$title);
         }
@@ -345,9 +348,6 @@ class Address{
             ->select((empty(self::$filter)) ? 'yoeb_addresses.*' : self::formatFilterColumns(self::$filter), 'yoeb_user_addresses.address_id as id') // 'id' olarak çıktıyı belirtiyoruz
             ->where('yoeb_addresses.deleted_at', null);
         }
-        if (!empty(self::$addressId)) {
-            $query = $query->where("id", self::$addressId);
-        }
         return $query;
     }
 
@@ -370,6 +370,23 @@ class Address{
             }else{
                 $data = $list->get(self::$filter);
             }
+        }
+
+        self::reset();
+
+        return $data;
+    }
+
+    public static function first($query = null) {
+        $list = self::baseQuery();
+        if (is_callable($query)) {
+            $query($list);
+        }
+
+        if(empty(self::$filter)){
+            $data = $list->first();
+        }else{
+            $data = $list->first(self::$filter);
         }
 
         self::reset();
@@ -669,7 +686,7 @@ class Address{
             $remove->where("user_id", self::$userId);
         }
         if(!empty(self::$addressId)){
-            $remove->where("user_id", self::$addressId);
+            $remove->where("address_id", self::$addressId);
         }
         return $remove;
     }
