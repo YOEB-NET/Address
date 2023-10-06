@@ -36,7 +36,7 @@ class Address{
         return (new static);
     }
 
-    public static function type($type){
+    public static function type(int $type){
         self::$type = $type;
         return (new static);
     }
