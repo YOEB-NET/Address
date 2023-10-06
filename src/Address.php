@@ -300,6 +300,9 @@ class Address{
     public static function baseQuery() {
         $query = YoebAddress::query();
 
+        if (!empty(self::$id)) {
+            $query = $query->where("id", self::$id);
+        }
         if (!empty(self::$title)) {
             $query = $query->where("title", self::$title);
         }
