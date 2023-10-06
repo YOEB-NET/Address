@@ -13,25 +13,31 @@ use Yoeb\Address\Model\YoebCity;
 class Address{
 
     // Add
-    protected static $title = null;
-    protected static $country_id = null;
-    protected static $state_id = null;
-    protected static $city_id = null;
+    protected static $title         = null;
+    protected static $type          = null;
+    protected static $country_id    = null;
+    protected static $state_id      = null;
+    protected static $city_id       = null;
     protected static $neighbourhood = null;
-    protected static $building_no = null;
-    protected static $floor = null;
-    protected static $apartment = null;
-    protected static $detail = null;
-    protected static $directions = null;
-    protected static $latitude = null;
-    protected static $longitude = null;
-    protected static $paginate = 0;
-    protected static $filter = null;
-    protected static $userId = null;
-    protected static $addressId = null;
+    protected static $building_no   = null;
+    protected static $floor         = null;
+    protected static $apartment     = null;
+    protected static $detail        = null;
+    protected static $directions    = null;
+    protected static $latitude      = null;
+    protected static $longitude     = null;
+    protected static $paginate      = 0;
+    protected static $filter        = null;
+    protected static $userId        = null;
+    protected static $addressId     = null;
 
     public static function title($title){
         self::$title = $title;
+        return (new static);
+    }
+
+    public static function type($type){
+        self::$type = $type;
         return (new static);
     }
 
@@ -114,6 +120,7 @@ class Address{
     public static function add() {
         self::create([
             "title"         => self::$title,
+            "type"          => self::$type,
             "country_id"    => self::$country_id,
             "state_id"      => self::$state_id,
             "city_id"       => self::$city_id,
@@ -266,7 +273,7 @@ class Address{
         if (is_callable($query)) {
             $query($delete);
         }
-        
+
         $ids = $delete->pluck("id");
         self::remove();
         YoebAddress::whereIn("id", $ids)->forceDelete();

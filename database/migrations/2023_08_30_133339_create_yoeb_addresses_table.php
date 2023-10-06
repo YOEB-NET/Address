@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('yoeb_addresses', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
+            $table->integer('type')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('city_id')->nullable();

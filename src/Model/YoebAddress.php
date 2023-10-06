@@ -15,6 +15,7 @@ class YoebAddress extends Model
     protected $fillable = [
         'id',
         'title',
+        'type',
         'country_id',
         'state_id',
         'city_id',
