@@ -13,23 +13,157 @@ use Yoeb\Address\Model\YoebCity;
 class Address{
 
     // Add
-    protected static $title         = null;
-    protected static $type          = null;
-    protected static $country_id    = null;
-    protected static $state_id      = null;
-    protected static $city_id       = null;
-    protected static $neighbourhood = null;
-    protected static $building_no   = null;
-    protected static $floor         = null;
-    protected static $apartment     = null;
-    protected static $detail        = null;
-    protected static $directions    = null;
-    protected static $latitude      = null;
-    protected static $longitude     = null;
-    protected static $paginate      = 0;
-    protected static $filter        = null;
-    protected static $userId        = null;
-    protected static $addressId     = null;
+    protected static $id                = null;
+    protected static $numeric_code      = null;
+    protected static $name              = null;
+    protected static $iso2              = null;
+    protected static $iso3              = null;
+    protected static $phonecode         = null;
+    protected static $capital           = null;
+    protected static $currency          = null;
+    protected static $currency_name     = null;
+    protected static $currency_symbol   = null;
+    protected static $tld               = null;
+    protected static $native            = null;
+    protected static $region            = null;
+    protected static $subregion         = null;
+    protected static $nationality       = null;
+    protected static $emoji             = null;
+    protected static $emojiu            = null;
+
+    protected static $country_code      = null;
+    protected static $country_name      = null;
+    protected static $state_code        = null;
+    protected static $state_name        = null;
+    protected static $wikidataid        = null;
+
+    protected static $title             = null;
+    protected static $type              = null;
+    protected static $country_id        = null;
+    protected static $state_id          = null;
+    protected static $city_id           = null;
+    protected static $neighbourhood     = null;
+    protected static $building_no       = null;
+    protected static $floor             = null;
+    protected static $apartment         = null;
+    protected static $detail            = null;
+    protected static $directions        = null;
+    protected static $latitude          = null;
+    protected static $longitude         = null;
+    protected static $paginate          = 0;
+    protected static $filter            = null;
+    protected static $userId            = null;
+    protected static $addressId         = null;
+
+    public static function id($id){
+        self::$id = $id;
+        return new static;
+    }
+
+    public static function name($name){
+        self::$name = $name;
+        return new static;
+    }
+
+    public static function numeric_code($numeric_code){
+        self::$numeric_code = $numeric_code;
+        return new static;
+    }
+
+    public static function iso2($iso2){
+        self::$iso2 = $iso2;
+        return new static;
+    }
+
+    public static function iso3($iso3){
+        self::$iso3 = $iso3;
+        return new static;
+    }
+
+    public static function phonecode($phonecode){
+        self::$phonecode = $phonecode;
+        return new static;
+    }
+
+    public static function capital($capital){
+        self::$capital = $capital;
+        return new static;
+    }
+
+    public static function currency($currency){
+        self::$currency = $currency;
+        return new static;
+    }
+
+    public static function currency_name($currency_name){
+        self::$currency_name = $currency_name;
+        return new static;
+    }
+
+    public static function currency_symbol($currency_symbol){
+        self::$currency_symbol = $currency_symbol;
+        return new static;
+    }
+
+    public static function tld($tld){
+        self::$tld = $tld;
+        return new static;
+    }
+
+    public static function native($native){
+        self::$native = $native;
+        return new static;
+    }
+
+    public static function region($region){
+        self::$region = $region;
+        return new static;
+    }
+
+    public static function subregion($subregion){
+        self::$subregion = $subregion;
+        return new static;
+    }
+
+    public static function nationality($nationality){
+        self::$nationality = $nationality;
+        return new static;
+    }
+
+    public static function emoji($emoji){
+        self::$emoji = $emoji;
+        return new static;
+    }
+
+    public static function emojiu($emojiu){
+        self::$emojiu = $emojiu;
+        return new static;
+    }
+
+    public static function country_code($country_code){
+        self::$country_code = $country_code;
+        return (new static);
+    }
+
+    public static function country_name($country_name){
+        self::$country_name = $country_name;
+        return (new static);
+    }
+
+    public static function state_code($state_code){
+        self::$state_code = $state_code;
+        return (new static);
+    }
+
+    public static function state_name($state_name){
+        self::$state_name = $state_name;
+        return (new static);
+    }
+
+    public static function wikidataid($wikidataid){
+        self::$wikidataid = $wikidataid;
+        return (new static);
+    }
 
     public static function title($title){
         self::$title = $title;
@@ -166,6 +300,9 @@ class Address{
     public static function baseQuery() {
         $query = YoebAddress::query();
 
+        if (!empty(self::$title)) {
+            $query = $query->where("title", self::$title);
+        }
         if (!empty(self::$country_id)) {
             $query = $query->where("country_id", self::$country_id);
         }
@@ -210,6 +347,7 @@ class Address{
         }
         return $query;
     }
+
     // List
     public static function list($query = null) {
         $list = self::baseQuery();
@@ -229,6 +367,291 @@ class Address{
             }else{
                 $data = $list->get(self::$filter);
             }
+        }
+
+        self::reset();
+
+        return $data;
+    }
+
+    // Country
+    public static function countryQuery() {
+        $query = YoebCountry::query();
+        if (!empty(self::$name)) {
+            $query = $query->where("name", self::$name);
+        }
+        if (!empty(self::$country_id)) {
+            $query = $query->where("country_id", self::$country_id);
+        }
+        if (!empty(self::$numeric_code)) {
+            $query = $query->where("numeric_code", self::$numeric_code);
+        }
+        if (!empty(self::$iso2)) {
+            $query = $query->where("iso2", self::$iso2);
+        }
+        if (!empty(self::$iso3)) {
+            $query = $query->where("iso3", self::$iso3);
+        }
+        if (!empty(self::$phonecode)) {
+            $query = $query->where("phonecode", self::$phonecode);
+        }
+        if (!empty(self::$capital)) {
+            $query = $query->where("capital", self::$capital);
+        }
+        if (!empty(self::$currency)) {
+            $query = $query->where("currency", self::$currency);
+        }
+        if (!empty(self::$currency_name)) {
+            $query = $query->where("currency_name", self::$currency_name);
+        }
+        if (!empty(self::$currency_symbol)) {
+            $query = $query->where("currency_symbol", self::$currency_symbol);
+        }
+        if (!empty(self::$tld)) {
+            $query = $query->where("tld", self::$tld);
+        }
+        if (!empty(self::$native)) {
+            $query = $query->where("native", self::$native);
+        }
+        if (!empty(self::$region)) {
+            $query = $query->where("region", self::$region);
+        }
+        if (!empty(self::$subregion)) {
+            $query = $query->where("subregion", self::$subregion);
+        }
+        if (!empty(self::$nationality)) {
+            $query = $query->where("nationality", self::$nationality);
+        }
+        if (!empty(self::$emoji)) {
+            $query = $query->where("emoji", self::$emoji);
+        }
+        if (!empty(self::$emojiu)) {
+            $query = $query->where("emojiu", self::$emojiu);
+        }
+
+        return $query;
+    }
+
+    public static function countries($query = null) {
+        $list = self::countryQuery();
+        if (is_callable($query)) {
+            $query($list);
+        }
+
+        if(self::$paginate){
+            if(empty(self::$filter)){
+                $data = $list->paginate(self::$paginate);
+            }else{
+                $data = $list->paginate(self::$paginate, self::$filter);
+            }
+        }else{
+            if(empty(self::$filter)){
+                $data = $list->get();
+            }else{
+                $data = $list->get(self::$filter);
+            }
+        }
+
+        self::reset();
+
+        return $data;
+    }
+
+    public static function country($id, $query = null) {
+        $data = self::countryQuery();
+        if (is_callable($query)) {
+            $query($data);
+        }
+        if(!empty($id)){
+            $data->where("id", $id);
+        }
+        if(!empty(self::$filter)){
+            $data = $data->first(self::$filter);
+        }else{
+            $data = $data->first();
+        }
+
+        self::reset();
+    }
+
+    // State
+    public static function stateQuery() {
+        $query = YoebState::query();
+        if (!empty(self::$name)) {
+            $query = $query->where("name", self::$name);
+        }
+        if (!empty(self::$country_id)) {
+            $query = $query->where("country_id", self::$country_id);
+        }
+        if (!empty(self::$numeric_code)) {
+            $query = $query->where("numeric_code", self::$numeric_code);
+        }
+        if (!empty(self::$iso2)) {
+            $query = $query->where("iso2", self::$iso2);
+        }
+        if (!empty(self::$iso3)) {
+            $query = $query->where("iso3", self::$iso3);
+        }
+        if (!empty(self::$phonecode)) {
+            $query = $query->where("phonecode", self::$phonecode);
+        }
+        if (!empty(self::$capital)) {
+            $query = $query->where("capital", self::$capital);
+        }
+        if (!empty(self::$currency)) {
+            $query = $query->where("currency", self::$currency);
+        }
+        if (!empty(self::$currency_name)) {
+            $query = $query->where("currency_name", self::$currency_name);
+        }
+        if (!empty(self::$currency_symbol)) {
+            $query = $query->where("currency_symbol", self::$currency_symbol);
+        }
+        if (!empty(self::$tld)) {
+            $query = $query->where("tld", self::$tld);
+        }
+        if (!empty(self::$native)) {
+            $query = $query->where("native", self::$native);
+        }
+        if (!empty(self::$region)) {
+            $query = $query->where("region", self::$region);
+        }
+        if (!empty(self::$subregion)) {
+            $query = $query->where("subregion", self::$subregion);
+        }
+        if (!empty(self::$nationality)) {
+            $query = $query->where("nationality", self::$nationality);
+        }
+        if (!empty(self::$emoji)) {
+            $query = $query->where("emoji", self::$emoji);
+        }
+        if (!empty(self::$emojiu)) {
+            $query = $query->where("emojiu", self::$emojiu);
+        }
+        if (!empty(self::$latitude)) {
+            $query = $query->where("latitude", self::$latitude);
+        }
+        if (!empty(self::$longitude)) {
+            $query = $query->where("longitude", self::$longitude);
+        }
+        return $query;
+    }
+
+    public static function states($query = null) {
+        $list = self::stateQuery();
+        if (is_callable($query)) {
+            $query($list);
+        }
+
+        if(self::$paginate){
+            if(empty(self::$filter)){
+                $data = $list->paginate(self::$paginate);
+            }else{
+                $data = $list->paginate(self::$paginate, self::$filter);
+            }
+        }else{
+            if(empty(self::$filter)){
+                $data = $list->get();
+            }else{
+                $data = $list->get(self::$filter);
+            }
+        }
+
+        self::reset();
+
+        return $data;
+    }
+
+    public static function state($id = null, $query = null) {
+        $data = self::stateQuery();
+        if (is_callable($query)) {
+            $query($data);
+        }
+        if(!empty($id)){
+            $data->where("id", $id);
+        }
+        if(!empty(self::$filter)){
+            $data = $data->first(self::$filter);
+        }else{
+            $data = $data->first();
+        }
+
+        self::reset();
+
+        return $data;
+    }
+
+    // City
+    public static function CityQuery() {
+        $query = YoebCity::query();
+        if (!empty(self::$name)) {
+            $query = $query->where("name", self::$name);
+        }
+        if (!empty(self::$state_id)) {
+            $query = $query->where("state_id", self::$state_id);
+        }
+        if (!empty(self::$state_code)) {
+            $query = $query->where("state_code", self::$state_code);
+        }
+        if (!empty(self::$country_id)) {
+            $query = $query->where("country_id", self::$country_id);
+        }
+        if (!empty(self::$country_code)) {
+            $query = $query->where("country_code", self::$country_code);
+        }
+        if (!empty(self::$country_name)) {
+            $query = $query->where("country_name", self::$country_name);
+        }
+        if (!empty(self::$wikidataid)) {
+            $query = $query->where("wikidataid", self::$wikidataid);
+        }
+        if (!empty(self::$latitude)) {
+            $query = $query->where("latitude", self::$latitude);
+        }
+        if (!empty(self::$longitude)) {
+            $query = $query->where("longitude", self::$longitude);
+        }
+
+        return $query;
+    }
+
+    public static function cities($query = null) {
+        $list = self::cityQuery();
+        if (is_callable($query)) {
+            $query($list);
+        }
+
+        if(self::$paginate){
+            if(empty(self::$filter)){
+                $data = $list->paginate(self::$paginate);
+            }else{
+                $data = $list->paginate(self::$paginate, self::$filter);
+            }
+        }else{
+            if(empty(self::$filter)){
+                $data = $list->get();
+            }else{
+                $data = $list->get(self::$filter);
+            }
+        }
+
+        self::reset();
+
+        return $data;
+    }
+
+    public static function city($id = null, $query = null) {
+        $data = self::cityQuery();
+        if (is_callable($query)) {
+            $query($data);
+        }
+        if(!empty($id)){
+            $data->where("id", $id);
+        }
+        if(!empty(self::$filter)){
+            $data = $data->first(self::$filter);
+        }else{
+            $data = $data->first();
         }
 
         self::reset();
@@ -292,20 +715,44 @@ class Address{
     }
 
     public static function reset() {
-        self::$title            = null;
-        self::$country_id       = null;
-        self::$state_id         = null;
-        self::$city_id          = null;
-        self::$neighbourhood    = null;
-        self::$building_no      = null;
-        self::$floor            = null;
-        self::$apartment        = null;
-        self::$detail           = null;
-        self::$directions       = null;
-        self::$latitude         = null;
-        self::$longitude        = null;
-        self::$userId           = null;
-        self::$addressId        = null;
+        self::$id                   = null;
+        self::$numeric_code         = null;
+        self::$name                 = null;
+        self::$iso2                 = null;
+        self::$iso3                 = null;
+        self::$phonecode            = null;
+        self::$capital              = null;
+        self::$currency             = null;
+        self::$currency_name        = null;
+        self::$currency_symbol      = null;
+        self::$tld                  = null;
+        self::$native               = null;
+        self::$region               = null;
+        self::$subregion            = null;
+        self::$nationality          = null;
+        self::$emoji                = null;
+        self::$emojiu               = null;
+
+        self::$country_code         = null;
+        self::$country_name         = null;
+        self::$state_code           = null;
+        self::$state_name           = null;
+        self::$wikidataid           = null;
+
+        self::$title                = null;
+        self::$country_id           = null;
+        self::$state_id             = null;
+        self::$city_id              = null;
+        self::$neighbourhood        = null;
+        self::$building_no          = null;
+        self::$floor                = null;
+        self::$apartment            = null;
+        self::$detail               = null;
+        self::$directions           = null;
+        self::$latitude             = null;
+        self::$longitude            = null;
+        self::$userId               = null;
+        self::$addressId            = null;
     }
 
     public static function formatFilterColumns($columns)
