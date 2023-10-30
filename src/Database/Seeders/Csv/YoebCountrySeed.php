@@ -6,6 +6,7 @@ use Yoeb\Address\Model\YoebCountry;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class YoebCountrySeed extends Seeder
 {

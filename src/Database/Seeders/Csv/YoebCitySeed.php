@@ -5,6 +5,7 @@ namespace Yoeb\Address\Database\Seeders\Csv;
 use Yoeb\Address\Model\YoebCity;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 class YoebCitySeed extends Seeder
 {
