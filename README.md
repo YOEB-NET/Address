@@ -9,12 +9,9 @@ This readme explains how to install `yoeb/address`.
 
 ## CSV permision settings:
 #### WİNDOWS:
-> icacls "vendor\yoeb\address\src\Database\data\csv\cities.csv" /grant
-> Everyone:F icacls
-> "vendor\yoeb\address\src\Database\data\csv\countries.csv" /grant
-> Everyone:F icacls
-> "vendor\yoeb\address\src\Database\data\csv\states.csv" /grant
-> Everyone:F
+> icacls "vendor\yoeb\address\src\Database\data\csv\cities.csv" /grant Everyone:F 
+> icacls "vendor\yoeb\address\src\Database\data\csv\countries.csv" /grant Everyone:F 
+> icacls "vendor\yoeb\address\src\Database\data\csv\states.csv" /grant Everyone:F
 
 
 [YOEB.NET](https://yoeb.net/) X [BERKAY.ME](https://berkay.me/)
