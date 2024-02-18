@@ -1,6 +1,6 @@
 <?php
 
-// 05.10.2023 YOEB.NET X BERKAY.ME
+// 18.02.2024 YOEB.NET X BERKAY.ME
 
 namespace Yoeb\Address;
 
@@ -346,6 +346,7 @@ class Address{
             $query = $query
             ->rightJoin('yoeb_user_addresses', 'yoeb_addresses.id', '=', 'yoeb_user_addresses.address_id')
             ->select((empty(self::$filter)) ? 'yoeb_addresses.*' : self::formatFilterColumns(self::$filter), 'yoeb_user_addresses.address_id as id') // 'id' olarak çıktıyı belirtiyoruz
+            ->where('yoeb_user_addresses.user_id', self::$userId)
             ->where('yoeb_addresses.deleted_at', null);
         }
         return $query;
@@ -602,7 +603,7 @@ class Address{
     }
 
     // City
-    public static function CityQuery() {
+    public static function cityQuery() {
         $query = YoebCity::query();
         if (!empty(self::$name)) {
             $query = $query->where("name", self::$name);
