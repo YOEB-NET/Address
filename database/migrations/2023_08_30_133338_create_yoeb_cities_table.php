@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('yoeb_cities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->char("slug")->unique()->nullable();
             $table->unsignedBigInteger('state_id');
             $table->string('state_code');
             $table->string('state_name');

@@ -10,6 +10,7 @@ class YoebCountry extends Model
     use HasFactory;
     protected $fillable = [
         'id',
+        'slug',
         'name',
         'iso3',
         'iso2',

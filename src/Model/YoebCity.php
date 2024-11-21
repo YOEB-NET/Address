@@ -12,6 +12,7 @@ class YoebCity extends Model
     use HasFactory;
     protected $fillable = [
         'id',
+        'slug',
         'name',
         'state_id',
         'state_code',

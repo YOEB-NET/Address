@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('yoeb_countries', function (Blueprint $table) {
             $table->id();
             $table->char("name", 100);
+            $table->char("slug", 100)->unique()->nullable();
             $table->char("iso3", 3);
             $table->char("numeric_code", 3);
             $table->char("iso2", 2);
